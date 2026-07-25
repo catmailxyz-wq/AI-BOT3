@@ -1,0 +1,43 @@
+# ============================================================
+# DISCORD BOT - ENVIRONMENT VARIABLES
+# ============================================================
+# Copy this file to .env and fill in your values.
+# NEVER commit the .env file to git.
+
+# ---- REQUIRED ----
+DISCORD_TOKEN=your_discord_bot_token_here
+
+# ---- AI PROVIDERS ----
+# Primary: xAI Grok API
+GROK_API_KEY=your_grok_api_key_here
+
+# Fallback: OpenAI API
+OPENAI_API_KEY=your_openai_api_key_here
+
+# AI model to use (default: grok-3-fast)
+AI_MODEL=grok-3-fast
+
+# ---- DATABASE ----
+# Leave empty to use SQLite (default)
+# For PostgreSQL: postgresql://user:password@host:5432/dbname
+DATABASE_URL=
+
+# ---- BOT SETTINGS ----
+# Bot command prefix (default: !)
+BOT_PREFIX=!
+
+# Bot owner ID (your Discord user ID)
+OWNER_ID=
+
+# Support server invite link
+SUPPORT_SERVER=
+
+# Bot log level: DEBUG, INFO, WARNING, ERROR
+LOG_LEVEL=INFO
+
+# ---- OPTIONAL SERVICES ----
+# Weather API key (openweathermap.org)
+WEATHER_API_KEY=
+
+# Optional: Status page URL
+STATUS_PAGE_URL=
