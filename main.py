@@ -710,7 +710,7 @@ class AISystem:
     def _init_clients(self):
         if GROQ_API_KEY:
             self.groq_client = AsyncOpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
-            log.info("Grok (xAI) AI client initialized.")
+            log.info("Groq (xAI) AI client initialized.")
         if OPENAI_API_KEY:
             self.openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
             log.info("OpenAI client initialized (fallback).")
@@ -722,7 +722,7 @@ class AISystem:
         model  = model or AI_MODEL
         client = self.groq_client or self.openai_client
         if not client:
-            return "AI is not configured. Please set GROQ_API_KEY or OPENAI_API_KEY."
+            return ""
         try:
             response = await client.chat.completions.create(
                 model=model, messages=messages,
@@ -5193,7 +5193,7 @@ class ConfigCog(commands.Cog, name="Config"):
                 f"**98 Slash Commands · All available as prefix commands too**\n"
                 f"Use `/help <category>` or `!help <category>` for detailed commands.\n\n"
                 f"**Prefix:** Configurable (default: `!`) • **Slash:** All commands\n"
-                f"**AI Powered:** Grok (xAI) primary, OpenAI fallback"
+                f"**AI Powered:** Groq (xAI) primary, OpenAI fallback"
             ),
             color=discord.Color.blurple(),
         )
