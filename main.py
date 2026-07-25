@@ -49,9 +49,9 @@ import qrcode
 load_dotenv()
 
 DISCORD_TOKEN  = os.getenv("DISCORD_TOKEN", "")
-GROK_API_KEY   = os.getenv("GROK_API_KEY", "")
+GROQ_API_KEY   = os.getenv("GROQ_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-AI_MODEL       = os.getenv("AI_MODEL", "grok-3-fast")
+AI_MODEL       = os.getenv("AI_MODEL", "llama-3.3-70b-versatile")
 DATABASE_URL   = os.getenv("DATABASE_URL", "")
 BOT_PREFIX     = os.getenv("BOT_PREFIX", "!")
 OWNER_ID       = int(os.getenv("OWNER_ID", "0") or "0")
@@ -693,7 +693,7 @@ def perm_check(user: discord.Member, *perms: str) -> bool:
 
 class AISystem:
     def __init__(self):
-        self.grok_client: Optional[AsyncOpenAI] = None
+        self.groq_client: Optional[AsyncOpenAI] = None
         self.openai_client: Optional[AsyncOpenAI] = None
         self._init_clients()
         self._cooldowns: Dict[str, float] = {}
@@ -708,21 +708,21 @@ class AISystem:
         }
 
     def _init_clients(self):
-        if GROK_API_KEY:
-            self.grok_client = AsyncOpenAI(api_key=GROK_API_KEY, base_url="https://api.x.ai/v1")
+        if GROQ_API_KEY:
+            self.groq_client = AsyncOpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
             log.info("Grok (xAI) AI client initialized.")
         if OPENAI_API_KEY:
             self.openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
             log.info("OpenAI client initialized (fallback).")
-        if not self.grok_client and not self.openai_client:
+        if not self.groq_client and not self.openai_client:
             log.warning("No AI API keys set. AI features will be limited.")
 
     async def _call_ai(self, messages: List[Dict], model: str = None,
                        temperature: float = 0.7, max_tokens: int = 1024) -> str:
         model  = model or AI_MODEL
-        client = self.grok_client or self.openai_client
+        client = self.groq_client or self.openai_client
         if not client:
-            return "AI is not configured. Please set GROK_API_KEY or OPENAI_API_KEY."
+            return "AI is not configured. Please set GROQ_API_KEY or OPENAI_API_KEY."
         try:
             response = await client.chat.completions.create(
                 model=model, messages=messages,
